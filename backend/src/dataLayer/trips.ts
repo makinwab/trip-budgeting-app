@@ -7,7 +7,7 @@ export class Trip {
 
   constructor(
     private readonly docClient: DocumentClient = createDynamoDBClient(),
-    private readonly tripsTable = process.env.TODOS_TABLE) {
+    private readonly tripsTable = process.env.TRIPS_TABLE) {
   }
 
   async createTrip(trip: TripItem): Promise<TripItem> {

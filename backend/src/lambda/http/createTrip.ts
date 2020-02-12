@@ -10,9 +10,9 @@ import { createLogger } from '../../utils/logger'
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   createLogger(`Processing event: ${event}`)
 
-  const newTodo: CreateTripRequest = JSON.parse(event.body)
+  const newTrip: CreateTripRequest = JSON.parse(event.body)
   const userId = getUserId(event)
-  const item = await createTrip(userId, newTodo)
+  const item = await createTrip(userId, newTrip)
 
   return {
     statusCode: 201,
