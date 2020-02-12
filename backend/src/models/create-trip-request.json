@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "trip",
+  "type": "object",
+  "properties": {
+    "location": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "budget": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "location",
+    "date",
+    "budget"
+  ],
+  "additionalProperties": false
+}
