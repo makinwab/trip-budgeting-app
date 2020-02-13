@@ -15,6 +15,7 @@ plugins:
 provider:
   name: aws
   runtime: nodejs12.x
+  profile: makinwa
 
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-2'}
@@ -49,31 +50,14 @@ custom:
     models:
       - name: CreateTripRequest
         contentType: "application/json"
-        schema: ${file(src/models/create-todo-request.json)}
-      - name: UpdateTodoRequest
+        schema: ${file(src/models/create-trip-request.json)}
+      - name: UpdateTripRequest
         contentType: "application/json"
-        schema: ${file(src/models/update-todo-request.json)}
+        schema: ${file(src/models/update-trip-request.json)}
 
 functions:
-
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
-
-  GetTrips:
-    handler: src/lambda/http/getTrips.handler
-    iamRoleStatementsName: get-trips-function-role
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:Query
-          - dynamodb:GetItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TRIPS_TABLE}
-    events:
-      - http:
-          method: get
-          path: trips
-          cors: true
-          authorizer: Auth
 
   CreateTrip:
     handler: src/lambda/http/createTrip.handler
@@ -111,22 +95,7 @@ resources:
           - AttributeName: tripId
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
-        TableName: ${self:provider.environment.TODOS_TABLE}
-    ActivitiesDynamoDBTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: activityId
-            AttributeType: S
-          - AttributeName: tripId
-            AttributeType: S
-        KeySchema:
-          - AttributeName: tripId
-            KeyType: HASH
-          - AttributeName: activityId
-            KeyType: RANGE
-        BillingMode: PAY_PER_REQUEST
-        TableName: ${self:provider.environment.ACTIVITIES_TABLE}
+        TableName: ${self:provider.environment.TRIPS_TABLE}
     RequestBodyValidator:
       Type: AWS::ApiGateway::RequestValidator
       Properties:
