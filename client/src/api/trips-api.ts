@@ -30,7 +30,7 @@ export async function createTrip(
   return response.data.item
 }
 
-export async function patchTodo(
+export async function patchTrip(
   idToken: string,
   tripId: string,
   updatedTrip: UpdateTripRequest
