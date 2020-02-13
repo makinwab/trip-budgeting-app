@@ -59,6 +59,22 @@ functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
 
+  GetTrips:
+    handler: src/lambda/http/getTrips.handler
+    iamRoleStatementsName: get-trips-function-role
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:GetItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TRIPS_TABLE}
+    events:
+      - http:
+          method: get
+          path: trips
+          cors: true
+          authorizer: Auth
+
   CreateTrip:
     handler: src/lambda/http/createTrip.handler
     iamRoleStatementsName: create-trip-function-role
@@ -78,6 +94,53 @@ functions:
             description: Create a new Trip
             requestModels:
               'application/json': CreateTripRequest
+  UpdateTrip:
+    handler: src/lambda/http/updateTrip.handler
+    iamRoleStatementsName: update-trip-function-role
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+          - dynamodb:GetItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TRIPS_TABLE}
+    events:
+      - http:
+          method: patch
+          path: trips/{tripId}
+          cors: true
+          authorizer: Auth
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Update a Trip
+            description: Update a Trip
+            requestModels:
+              'application/json': UpdateTripRequest
+      - http:
+          method: put
+          path: trips/{tripId}
+          cors: true
+          authorizer: Auth
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Update a Trip
+            description: Update a Trip
+            requestModels:
+              'application/json': UpdateTripRequest
+  DeleteTrip:
+    handler: src/lambda/http/deleteTrip.handler
+    iamRoleStatementsName: delete-trip-function-role
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:DeleteItem
+          - dynamodb:GetItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TRIPS_TABLE}
+    events:
+      - http:
+          method: delete
+          path: trips/{tripId}
+          cors: true
+          authorizer: Auth
 
 resources:
   Resources:
