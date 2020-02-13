@@ -8,6 +8,7 @@ plugins:
   - serverless-iam-roles-per-function
   - serverless-reqvalidator-plugin
   - serverless-plugin-tracing
+  - serverless-stack-output
 
 # package:
   # individually: true
@@ -38,6 +39,9 @@ iamRoleStatements:
       - "*"
 
 custom:
+  output:
+    handler: scripts/output.handler # Same syntax as you already know 
+    file: .build/stack.json
   documentation:
     api:
       info:
