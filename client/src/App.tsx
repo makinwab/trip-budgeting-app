@@ -6,6 +6,7 @@ import Auth from './auth/Auth'
 import { LogIn } from './components/LogIn'
 import { NotFound } from './components/NotFound'
 import { Trips } from './components/Trips'
+import { EditTrip } from './components/EditTrip'
 
 export interface AppProps {}
 
@@ -95,14 +96,13 @@ export default class App extends Component<AppProps, AppState> {
           }}
         />
 
-        {/* <Route
+        <Route
           path="/trips/:tripId/edit"
           exact
           render={props => {
             return <EditTrip {...props} auth={this.props.auth} />
           }}
-        /> */}
-
+        />
         <Route component={NotFound} />
       </Switch>
     )
