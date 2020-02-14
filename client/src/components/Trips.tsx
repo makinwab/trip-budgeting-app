@@ -9,8 +9,7 @@ import {
   Icon,
   Input,
   Loader,
-  Form,
-  FormGroup
+  Form
 } from 'semantic-ui-react'
 
 import { createTrip, getTrips } from '../api/trips-api'
@@ -53,6 +52,10 @@ export class Trips extends React.PureComponent<TripsProps, TripsState> {
 
   onEditButtonClick = (tripId: string) => {
     this.props.history.push(`/trips/${tripId}/edit`)
+  }
+
+  onDeleteButtonClick = (tripId: string) => {
+    this.props.history.push(`/trips/${tripId}/delete`)
   }
 
   onTripCreate = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -188,6 +191,15 @@ export class Trips extends React.PureComponent<TripsProps, TripsState> {
                     <Icon name="pencil" />
                   </Button>
                 </Grid.Column>
+                <Grid.Column width={1} floated="right">
+                  <Button
+                    icon
+                    color="red"
+                    onClick={() => this.onDeleteButtonClick(trip.tripId)}
+                  >
+                    <Icon name="cancel" />
+                  </Button>
+                </Grid.Column>
                 <Grid.Column width={16}>
                   <Divider />
                 </Grid.Column>
@@ -200,7 +212,6 @@ export class Trips extends React.PureComponent<TripsProps, TripsState> {
   }
 
   parseDate(tripDate: string): string {
-    console.log(tripDate, 'sup??')
     const date = new Date(tripDate)
     date.setDate(date.getDate() + 7)
 
