@@ -12,7 +12,7 @@ import {
   Form
 } from 'semantic-ui-react'
 
-import { createTrip, getTrips } from '../api/trips-api'
+import { createTrip, getTrips, deleteTrip } from '../api/trips-api'
 import Auth from '../auth/Auth'
 import { Trip } from '../types/Trip'
 
@@ -54,8 +54,20 @@ export class Trips extends React.PureComponent<TripsProps, TripsState> {
     this.props.history.push(`/trips/${tripId}/edit`)
   }
 
-  onDeleteButtonClick = (tripId: string) => {
-    this.props.history.push(`/trips/${tripId}/delete`)
+  handleDeleteTripAction = async (tripId: string) => {
+    try {
+      await deleteTrip(this.props.auth.getIdToken(), tripId)
+
+      const updatedTrips = this.state.trips.filter(trip => {
+        return trip.tripId !== tripId
+      })
+
+      this.setState({
+        trips: [...updatedTrips],
+      })
+    } catch {
+      alert('Trip deletion failed')
+    }
   }
 
   onTripCreate = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -195,7 +207,7 @@ export class Trips extends React.PureComponent<TripsProps, TripsState> {
                   <Button
                     icon
                     color="red"
-                    onClick={() => this.onDeleteButtonClick(trip.tripId)}
+                    onClick={() => this.handleDeleteTripAction(trip.tripId)}
                   >
                     <Icon name="cancel" />
                   </Button>

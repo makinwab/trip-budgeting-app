@@ -4,12 +4,6 @@ import { Form, Button, Input } from 'semantic-ui-react'
 import Auth from '../auth/Auth'
 import { getTrips, patchTrip} from '../api/trips-api'
 
-enum UploadState {
-  NoUpload,
-  FetchingPresignedUrl,
-  UploadingFile,
-}
-
 interface EditTripProps {
   match: {
     params: {
@@ -75,7 +69,7 @@ export class EditTrip extends React.PureComponent<
     event.preventDefault()
 
     try {
-      const newTrip = await patchTrip(this.props.auth.getIdToken(), this.props.match.params.tripId, {
+      await patchTrip(this.props.auth.getIdToken(), this.props.match.params.tripId, {
         location: this.state.location,
         date: this.state.date,
         budget: this.state.budget

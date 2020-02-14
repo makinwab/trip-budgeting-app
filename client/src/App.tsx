@@ -103,15 +103,6 @@ export default class App extends Component<AppProps, AppState> {
             return <EditTrip {...props} auth={this.props.auth} />
           }}
         />
-
-        {/* <Route
-          path="/trips/:tripId/delete"
-          exact
-          render={props => {
-            return <DeleteTrip {...props} auth={this.props.auth} />
-          }}
-        /> */}
-
         <Route component={NotFound} />
       </Switch>
     )

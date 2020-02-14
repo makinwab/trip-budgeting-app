@@ -42,3 +42,15 @@ export async function patchTrip(
     }
   })
 }
+
+export async function deleteTrip(
+  idToken: string,
+  tripId: string
+): Promise<void> {
+  await Axios.delete(`${apiEndpoint}/trips/${tripId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    }
+  })
+}
